@@ -6,7 +6,8 @@ import {
   Route
  } from "react-router-dom";
 import MainLayout from "./Layout/MainLayout";
-import HomePage from "./Layout/Pages/HomePage";
+import HomePage from './components/HomePage';
+
 
  
  
