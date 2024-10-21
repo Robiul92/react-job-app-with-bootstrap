@@ -6,7 +6,7 @@ First command
 
 # To change the default port or host in my vite.config.js, I can modify the server property inside the defineConfig function. Here’s how I can update it to change the port or host:
 
-<!-- export default defineConfig({
+## <!-- export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000, // Change this to the port I want
