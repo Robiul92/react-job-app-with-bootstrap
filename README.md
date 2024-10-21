@@ -9,8 +9,9 @@ First command
 ## <!-- export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000, // Change this to the port I want
+    port: 3000, // Change this to the port I want, 
+    # then
     host: '0.0.0.0', // This allows access from the local network; use 'localhost' if I only need local access
   }
 }) -->
-# react-job-app-with-bootstrap
+
