@@ -1,53 +1,30 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import logo from '../assets/images/logo.png'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import logo from '../assets/images/logo.png';
 
 const NavBar = () => {
-    const activeLink = ({isActive})=> isActive ? 'text-white bg-black hover:bg-gray-900 hover:text-white rounded-md px-3 py-2' : 'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2';
-  return (
-    <nav className="bg-indigo-700 border-b border-indigo-500">
-    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div className="flex h-20 items-center justify-between">
-        <div
-          className="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
-        >
-          {/* <!-- Logo --> */}
-          
-          <NavLink className="flex flex-shrink-0 items-center mr-4" href="/index.html">
-            <img 
-            
-              className="h-10 w-auto"
-              src={logo}
-              alt="React Jobs"
-            />
-            <span className="hidden md:block text-white text-2xl font-bold ml-2"
-              >React Jobs</span
-            >
-          </NavLink>
-          <div className="md:ml-auto">
-            <div className="flex space-x-2">
-              <NavLink
-                to="/"
-                className= {activeLink}
-                >Home</NavLink
-              >
-              <NavLink
-                to="/jobs"
-                className={activeLink}
-                >Jobs</NavLink
-              >
-              <NavLink
-                to="/add-job"
-                className={activeLink}
-                >Add Job</NavLink
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
-  )
-}
+//   const activeLink = ({ isActive }) =>
+//     isActive ? 'nav-link text-light bg-dark rounded px-3 py-2' : 'nav-link text-light px-3 py-2';
 
-export default NavBar
+  return (
+    
+    <Navbar className="justify-content-center mb-1" bg="primary" variant="dark" expand="lg" sticky="top">
+      <Container fluid className='p-2 mb-2'>
+        <Navbar.Brand to="/">React Job</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+        
+         <Nav className="ms-auto text-success">
+            <NavLink className='px-2 text-light bg-dark' to="/">Home</NavLink>
+            <NavLink className='px-2 text-light' to="/jobs">All Jobs</NavLink>
+            <NavLink className='px-2 text-light' to="/add-job">Add Job</NavLink>
+          </Nav>
+         
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};
+
+export default NavBar;

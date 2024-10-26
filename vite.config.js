@@ -7,5 +7,13 @@ export default defineConfig({
   server: {
     port: 3000, // Change this to the port you want
     host: '0.0.0.0', // This allows access from the local network; use 'localhost' if you only need local access
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    }
+  
   }
 })

@@ -15,3 +15,9 @@ First command
   }
 }) -->
 
+..// npm install json-server
+
+..// npm install react-icons --save
+
+..// npm install --save react-spinners
+
