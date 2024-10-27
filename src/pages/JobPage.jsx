@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
-import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 const JobPage = () => {
   const { id } = useParams();
-  // const job = useLoaderData();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [job, setJob] = useState([]);
+  const [job, setJob] = useState({});
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const res = await fetch(`/api/jobs/${id}`);
         const data = await res.json();
-
-        console.log(data);
         setJob(data);
       } catch (error) {
-        console.log("errorr fatching data", error);
+        console.log("Error fetching data", error);
       } finally {
         setLoading(false);
       }
@@ -27,93 +26,76 @@ const JobPage = () => {
   }, [id]);
 
   const onDelete = () => {};
+
   return (
     <>
-      {/* <section>
-        <div className="container m-auto py-6 px-6">
-          <Link
-            to="/jobs"
-            className="text-indigo-500 hover:text-indigo-600 flex items-center"
-          >
-            <FaArrowLeft className="mr-2" /> Back to Job Listings
+      <section>
+        <Container className="py-4">
+          <Link to="/jobs" className="text-decoration-none d-flex align-items-center text-primary">
+            <FaArrowLeft className="me-2" /> Back to Job Listings
           </Link>
-        </div>
+        </Container>
       </section>
 
-      <section className="bg-indigo-50">
-        <div className="container m-auto py-10 px-6">
-          <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
-            <main>
-              <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-left">
-                <div className="text-gray-500 mb-4">{job.type}</div>
-                <h1 className="text-3xl font-bold mb-4">{job.title}</h1>
-                <div className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
-                  <FaMapMarker className="mr-1 text-orange-700" />
-                  <p className="text-orange-700">{job.location} </p>
-                </div>
-              </div>
+      <section className="bg-light py-5">
+        <Container>
+          <Row className="g-4">
+            <Col md={8}>
+              <Card className="p-4 text-center text-md-start">
+                <Card.Body>
+                  <div className="text-muted mb-2">{job.type}</div>
+                  <Card.Title as="h1" className="display-5 fw-bold">{job.title}</Card.Title>
+                  <div className="text-muted mb-3 d-flex align-items-center justify-content-center justify-content-md-start">
+                    <FaMapMarker className="me-1 text-warning" />
+                    <span className="text-warning">{job.location}</span>
+                  </div>
+                  <h3 className="text-primary fw-bold mt-4">Job Description</h3>
+                  <Card.Text>{job.description}</Card.Text>
+                  <h3 className="text-primary fw-bold mt-3">Salary</h3>
+                  <Card.Text>{job.salary} / Year</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
 
-              <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-                <h3 className="text-indigo-800 text-lg font-bold mb-6">
-                  Job Description
-                </h3>
+            <Col md={4}>
+              <Card className="p-4">
+                <Card.Body>
+                  <Card.Title as="h3" className="fw-bold">Company Info</Card.Title>
+                  <h4>{job.company?.name}</h4>
+                  <Card.Text>{job.company?.description}</Card.Text>
+                  <hr />
+                  <h5>Contact Email:</h5>
+                  <p className="bg-light p-2 rounded">{job.company?.contactEmail}</p>
+                  <h5>Contact Phone:</h5>
+                  <p className="bg-light p-2 rounded">{job.company?.contactPhone}</p>
+                </Card.Body>
+              </Card>
 
-                <p className="mb-4">{job.description}</p>
-
-                <h3 className="text-indigo-800 text-lg font-bold mb-2">
-                  Salary
-                </h3>
-
-                <p className="mb-4">{job.salary} / Year</p>
-              </div>
-            </main>
-
-            <aside>
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-bold mb-6">Company Info</h3>
-
-                <h2 className="text-2xl">{job.company.name}</h2>
-
-                <p className="my-2">{job.company.description}</p>
-
-                <hr className="my-4" />
-
-                <h3 className="text-xl">Contact Email:</h3>
-
-                <p className="my-2 bg-indigo-100 p-2 font-bold">
-                  {job.company.contactEmail}
-                </p>
-
-                <h3 className="text-xl">Contact Phone:</h3>
-
-                <p className="my-2 bg-indigo-100 p-2 font-bold">
-                  {job.company.contactPhone}{" "}
-                </p>
-              </div>
-
-              <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-                <h3 className="text-xl font-bold mb-6">Manage Job</h3>
-                <Link
-                  to={`/edit-job/${job.id}`}
-                  className="bg-indigo-500 hover:bg-indigo-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                >
-                  Edit Job
-                </Link>
-                <button
-                  onClick={() => onDelete(job.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                >
-                  Delete Job
-                </button>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section> */}
-
-{job.title}
+              <Card className="p-4 mt-4">
+                <Card.Body>
+                  <Card.Title as="h3" className="fw-bold">Manage Job</Card.Title>
+                  <Button
+                    as={Link}
+                    to={`/edit-job/${job.id}`}
+                    variant="primary"
+                    className="w-100 mb-3"
+                  >
+                    Edit Job
+                  </Button>
+                  <Button
+                    onClick={() => onDelete(job.id)}
+                    variant="danger"
+                    className="w-100"
+                  >
+                    Delete Job
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </section>
     </>
-    
   );
 };
 

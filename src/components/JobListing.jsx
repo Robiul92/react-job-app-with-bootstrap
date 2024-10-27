@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Card, Button, Row, Col } from 'react-bootstrap';
-import { FaMapMarker } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Card, Button, Row, Col } from "react-bootstrap";
+import { FaMapMarker } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const JobListing = ({job}) => {
+const JobListing = ({ job }) => {
   const [isExpended, setIsExpended] = useState(false);
-    let description = job.description;
+  let description = job.description;
 
-    if (!isExpended) {
-      description = description.substring(0, 90) + '...';
-    }
+  if (!isExpended) {
+    description = description.substring(0, 90) + "...";
+  }
   return (
     <Card className="shadow-md rounded-xl h-100 d-flex flex-column justify-content-between">
       <Card.Body>
@@ -20,35 +20,35 @@ const JobListing = ({job}) => {
 
         <Card.Text className="mb-4">{description}</Card.Text>
 
-        <Button 
-          variant="link" 
+        <Button
+          variant="link"
           className="text-indigo-500 mb-4 p-0"
           onClick={() => setIsExpended((prevState) => !prevState)}
         >
-          {isExpended ? 'Less' : 'More'}
+          {isExpended ? "Less" : "More"}
         </Button>
 
         <h5 className="text-indigo-500 mb-1">{job.salary} / Year</h5>
 
         <hr className="mb-4" />
 
-        <Row className="justify-content-between mb-2">
-          <Col lg="auto" className="text-orange-700 mb-3">
-            <FaMapMarker className="inline text-lg mb-1 mr-2" />
-            {job.location}
-          </Col>
-          <Col lg="auto">
-            <Link 
-              to={`/jobs/${job.id}`} 
-              className="btn btn-primary text-white px-4 py-2 rounded-lg"
-            >
-              Read More
-            </Link>
-          </Col>
-        </Row>
+        <Row className="justify-content-between mb-2 align-items-center">
+  <Col className="d-flex justify-content-between align-items-center">
+    <div className="d-flex align-items-center text-warning text-nowrap">
+      <FaMapMarker className="me-1" />
+      <span>{job.location}</span>
+    </div>
+    <Link 
+      to={`/jobs/${job.id}`} 
+      className="btn btn-primary text-white px-4 py-2 rounded-lg ms-2"
+    >
+      Read More
+    </Link>
+  </Col>
+</Row>
       </Card.Body>
     </Card>
-  )
-}
+  );
+};
 
-export default JobListing
+export default JobListing;
