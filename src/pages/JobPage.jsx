@@ -1,25 +1,41 @@
-import React from 'react'
-import { FaArrowLeft, FaMapMarker } from 'react-icons/fa'
-import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
+import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
 
 const JobPage = () => {
+  const { id } = useParams();
+  // const job = useLoaderData();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [job, setJob] = useState([]);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const res = await fetch(`/api/jobs/${id}`);
+        const data = await res.json();
 
-    const { id } = useParams();
-    const job = useLoaderData();
-    const navigate = useNavigate();
+        console.log(data);
+        setJob(data);
+      } catch (error) {
+        console.log("errorr fatching data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const onDelete = ()=>{
+    fetchJobs();
+  }, [id]);
 
-    }
+  const onDelete = () => {};
   return (
     <>
-      <section>
+      {/* <section>
         <div className="container m-auto py-6 px-6">
           <Link
             to="/jobs"
             className="text-indigo-500 hover:text-indigo-600 flex items-center"
           >
-            <FaArrowLeft className="mr-2"/> Back to Job Listings
+            <FaArrowLeft className="mr-2" /> Back to Job Listings
           </Link>
         </div>
       </section>
@@ -30,11 +46,9 @@ const JobPage = () => {
             <main>
               <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-left">
                 <div className="text-gray-500 mb-4">{job.type}</div>
-                <h1 className="text-3xl font-bold mb-4">
-                  {job.title}
-                </h1>
+                <h1 className="text-3xl font-bold mb-4">{job.title}</h1>
                 <div className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
-                  <FaMapMarker className="mr-1 text-orange-700"/>
+                  <FaMapMarker className="mr-1 text-orange-700" />
                   <p className="text-orange-700">{job.location} </p>
                 </div>
               </div>
@@ -44,9 +58,7 @@ const JobPage = () => {
                   Job Description
                 </h3>
 
-                <p className="mb-4">
-                {job.description}
-                </p>
+                <p className="mb-4">{job.description}</p>
 
                 <h3 className="text-indigo-800 text-lg font-bold mb-2">
                   Salary
@@ -62,9 +74,7 @@ const JobPage = () => {
 
                 <h2 className="text-2xl">{job.company.name}</h2>
 
-                <p className="my-2">
-                  {job.company.description}
-                </p>
+                <p className="my-2">{job.company.description}</p>
 
                 <hr className="my-4" />
 
@@ -76,7 +86,9 @@ const JobPage = () => {
 
                 <h3 className="text-xl">Contact Phone:</h3>
 
-                <p className="my-2 bg-indigo-100 p-2 font-bold">{job.company.contactPhone} </p>
+                <p className="my-2 bg-indigo-100 p-2 font-bold">
+                  {job.company.contactPhone}{" "}
+                </p>
               </div>
 
               <div className="bg-white p-6 rounded-lg shadow-md mt-6">
@@ -87,16 +99,22 @@ const JobPage = () => {
                 >
                   Edit Job
                 </Link>
-                <button onClick={ () => onDelete(job.id)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block">
+                <button
+                  onClick={() => onDelete(job.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                >
                   Delete Job
                 </button>
               </div>
             </aside>
           </div>
         </div>
-      </section>
-    </>
-  )
-}
+      </section> */}
 
-export default JobPage
+{job.title}
+    </>
+    
+  );
+};
+
+export default JobPage;
