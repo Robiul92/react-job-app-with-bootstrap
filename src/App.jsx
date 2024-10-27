@@ -16,6 +16,7 @@ import MainLayout from "./Layout/MainLayout";
 
 import HomePage from "./pages/HomePage";
 import JobPages from "./pages/JobPages";
+import JobPage from "./pages/JobPage";
 
 const App = () => {
   
@@ -24,6 +25,8 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/jobs" element={<JobPages />} />
+        <Route path="/jobs/:id" element={<JobPage />} />
+        <Route path="*" element={<JobPage />} />
       </Route>
     )
   );

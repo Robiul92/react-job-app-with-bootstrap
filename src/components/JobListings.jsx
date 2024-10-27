@@ -3,7 +3,7 @@ import JobListing from "./JobListing";
 import { Col, Container, Row } from "react-bootstrap";
 import Spinners from './Spinners'
 
-const JobListings = () => {
+const JobListings = ({isHome}) => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +25,9 @@ const JobListings = () => {
 
   return (
     <Container>
-      <h2 className="my-4">Browse Jobs</h2>
+      <h2 className="my-4">
+      {isHome ? 'Browse Jobs' : 'Recent Jobs'}
+        </h2>
       {loading ? (
         <Spinners loading ={setLoading} />
       ) : (
