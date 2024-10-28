@@ -1,11 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 const AddJob = () => {
-  const handleSubmit = (e)=>{
+  const job = useLoaderData();
+  const nevigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("Full-Time");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [salary, setSalary] = useState("Under $50K");
+  const [companyName, setCompanyName] = useState("");
+  const [companyDescription, setCompanyDescription] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  console.log(job);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e)
-  }
+    const newJob = {
+      title,
+      type,
+      location,
+      description,
+      salary,
+      company: {
+        name: companyName,
+        description: companyDescription,
+        contactEmail,
+        contactPhone,
+      },
+    };
+    addJob(newJob);
+    nevigate('/jobs')
+  };
+
+  const addJob = async (newJob) => {
+    const res = await fetch("/api/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newJob),
+    });
+    return;
+  };
+
   return (
     <section className="bg-light py-5">
       <Container className="d-flex justify-content-center">
@@ -13,7 +53,9 @@ const AddJob = () => {
           <Form onSubmit={handleSubmit}>
             <h2 className="text-center mb-4">Add Job</h2>
 
-            <Form.Group className="mb-3" controlId="type">
+            <Form.Group className="mb-3" controlId="type"
+             onChange={(e) => setType(e.target.value)}
+             >
               <Form.Label>Job Type</Form.Label>
               <Form.Select required>
                 <option value="Full-Time">Full-Time</option>
@@ -23,7 +65,9 @@ const AddJob = () => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="title">
+            <Form.Group className="mb-3" controlId="title"
+             onChange={(e) => setTitle(e.target.value)}
+             >
               <Form.Label>Job Listing Name</Form.Label>
               <Form.Control
                 type="text"
@@ -32,7 +76,9 @@ const AddJob = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="description">
+            <Form.Group className="mb-3" controlId="description"
+            
+            onChange={(e) => setDescription(e.target.value)}>
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
@@ -41,7 +87,9 @@ const AddJob = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="salary">
+            <Form.Group className="mb-3" controlId="salary"
+            onChange={(e) => setSalary(e.target.value)}
+            >
               <Form.Label>Salary</Form.Label>
               <Form.Select required>
                 <option value="Under $50K">Under $50K</option>
@@ -58,7 +106,9 @@ const AddJob = () => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="location">
+            <Form.Group className="mb-3" controlId="location"
+            onChange={(e) => setLocation(e.target.value)}
+            >
               <Form.Label>Location</Form.Label>
               <Form.Control
                 type="text"
@@ -69,12 +119,15 @@ const AddJob = () => {
 
             <h3 className="mb-3">Company Info</h3>
 
-            <Form.Group className="mb-3" controlId="company">
+            <Form.Group className="mb-3" controlId="company"
+            onChange={(e) => setCompanyName(e.target.value)}>
               <Form.Label>Company Name</Form.Label>
               <Form.Control type="text" placeholder="Company Name" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="company_description">
+            <Form.Group className="mb-3" controlId="company_description"
+            onChange={(e) => setCompanyDescription(e.target.value)}
+            >
               <Form.Label>Company Description</Form.Label>
               <Form.Control
                 as="textarea"
@@ -83,7 +136,8 @@ const AddJob = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="contact_email">
+            <Form.Group className="mb-3" controlId="contact_email"
+            onChange={(e) => setContactEmail(e.target.value)}>
               <Form.Label>Contact Email</Form.Label>
               <Form.Control
                 type="email"
@@ -92,9 +146,14 @@ const AddJob = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="contact_phone">
+            <Form.Group className="mb-3" controlId="contact_phone"
+            onChange={(e) => setContactPhone(e.target.value)}>
+              >
               <Form.Label>Contact Phone</Form.Label>
-              <Form.Control type="tel" placeholder="Optional phone for applicants" />
+              <Form.Control
+                type="tel"
+                placeholder="Optional phone for applicants"
+              />
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">

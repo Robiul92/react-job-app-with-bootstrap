@@ -25,7 +25,23 @@ const JobPage = () => {
     fetchJobs();
   }, [id]);
 
-  const onDelete = () => {};
+  const deleteJob = async (id) => {
+    const res = await fetch(`/api/jobs/${id}`, {
+      method: "DELETE",
+    });
+    return;
+  };
+ 
+
+  const onDelete =(jobId)=> {
+    const confirm = window.confirm("Are you sure you want to delete the Job details")
+     if(!confirm) return;
+    
+    
+    deleteJob(jobId);
+    return navigate('/jobs')
+    }
+    
 
   return (
     <>
