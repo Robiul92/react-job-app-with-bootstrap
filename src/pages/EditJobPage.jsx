@@ -5,16 +5,14 @@ import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 const EditJobPage = () => {
   const job = useLoaderData();
   const { id } = useParams();
-  const nevigate = useNavigate();
+  const navigate = useNavigate();
   const [title, setTitle] = useState(job.title);
   const [type, setType] = useState(job.type);
   const [location, setLocation] = useState(job.location);
   const [description, setDescription] = useState(job.description);
   const [salary, setSalary] = useState(job.salary);
   const [companyName, setCompanyName] = useState(job.company.name);
-  const [companyDescription, setCompanyDescription] = useState(
-    job.company.description
-  );
+  const [companyDescription, setCompanyDescription] = useState(job.company.description);
   const [contactEmail, setContactEmail] = useState(job.company.contactEmail);
   const [contactPhone, setContactPhone] = useState(job.company.contactPhone);
 
@@ -34,27 +32,23 @@ const EditJobPage = () => {
       },
     };
     editJobs(newJob);
-    nevigate("/jobs");
+    navigate("/jobs");
   };
 
-  const editJobs = async (job)=>{
-const res = await fetch(`/api/jobs/${id}`,
-  {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(job),
-  }
-)
-return;
+  const editJobs = async (job) => {
+    await fetch(`/api/jobs/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(job),
+    });
   };
 
-  const handleCancel = () =>{
-    nevigate(`/jobs/${id}`)
-  }
+  const handleCancel = () => {
+    navigate(`/jobs/${id}`);
+  };
 
-  const addJob = () => {};
   return (
     <section className="bg-light py-5">
       <Container className="d-flex justify-content-center">
@@ -62,15 +56,9 @@ return;
           <Form onSubmit={handleSubmit}>
             <h2 className="text-center mb-4">Edit Job</h2>
 
-            <Form.Group
-              className="mb-3"
-              controlId="type"
-              onChange={(e) => setType(e.target.value)}
-            >
+            <Form.Group className="mb-3" controlId="type">
               <Form.Label>Job Type</Form.Label>
-              <Form.Select required
-              value ={type}
-              >
+              <Form.Select required value={type} onChange={(e) => setType(e.target.value)}>
                 <option value="Full-Time">Full-Time</option>
                 <option value="Part-Time">Part-Time</option>
                 <option value="Remote">Remote</option>
@@ -78,42 +66,31 @@ return;
               </Form.Select>
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="title"
-              onChange={(e) => setTitle(e.target.value)}
-            >
+            <Form.Group className="mb-3" controlId="title">
               <Form.Label>Job Listing Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="e.g., Beautiful Apartment In Miami"
                 required
-                value ={title}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
-              
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="description"
-              onChange={(e) => setDescription(e.target.value)}
-            >
+            <Form.Group className="mb-3" controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={4}
-                value ={description}
+                value={description}
                 placeholder="Add any job duties, expectations, requirements, etc"
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="salary">
               <Form.Label>Salary</Form.Label>
-              <Form.Select
-                required
-                value={salary}
-                onChange={(e) => setSalary(e.target.value)}
-              >
+              <Form.Select required value={salary} onChange={(e) => setSalary(e.target.value)}>
                 <option value="Under $50K">Under $50K</option>
                 <option value="$50K - 60K">$50K - $60K</option>
                 <option value="$60K - 70K">$60K - $70K</option>
@@ -128,79 +105,67 @@ return;
               </Form.Select>
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="location"
-              onChange={(e) => setLocation(e.target.value)}
-            >
+            <Form.Group className="mb-3" controlId="location">
               <Form.Label>Location</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Company Location"
                 required
-                value ={location}
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               />
             </Form.Group>
 
             <h3 className="mb-3">Company Info</h3>
 
-            <Form.Group
-              className="mb-3"
-              controlId="company"
-              onChange={(e) => setCompanyName(e.target.value)}
-            >
+            <Form.Group className="mb-3" controlId="company">
               <Form.Label>Company Name</Form.Label>
-              <Form.Control type="text" placeholder="Company Name" 
-              value ={companyName} />
+              <Form.Control
+                type="text"
+                placeholder="Company Name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="company_description"
-              onChange={(e) => setCompanyDescription(e.target.value)}
-            >
+            <Form.Group className="mb-3" controlId="company_description">
               <Form.Label>Company Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={4}
                 placeholder="What does your company do?"
-                value ={companyDescription}
+                value={companyDescription}
+                onChange={(e) => setCompanyDescription(e.target.value)}
               />
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="contact_email"
-              onChange={(e) => setContactEmail(e.target.value)}
-            >
+            <Form.Group className="mb-3" controlId="contact_email">
               <Form.Label>Contact Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Email address for applicants"
                 required
-                value ={contactEmail}
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
               />
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="contact_phone"
-              onChange={(e) => setContactPhone(e.target.value)}
-            >
-              <Form.Label> Contact Phone </Form.Label>
+            <Form.Group className="mb-3" controlId="contact_phone">
+              <Form.Label>Contact Phone</Form.Label>
               <Form.Control
                 type="tel"
                 placeholder="Optional phone for applicants"
-                value ={contactPhone}
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
               />
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100 mb-2">
-            Edit Job
+              Edit Job
             </Button>
             <Button variant="danger" onClick={handleCancel} className="w-100">
-                Cancel
-              </Button>
+              Cancel
+            </Button>
           </Form>
         </Card>
       </Container>
