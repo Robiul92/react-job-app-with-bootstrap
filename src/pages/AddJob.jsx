@@ -5,10 +5,10 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 const AddJob = () => {
   const job = useLoaderData();
   const nevigate = useNavigate();
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(job.title);
   const [type, setType] = useState("Full-Time");
   const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(job.description);
   const [salary, setSalary] = useState("Under $50K");
   const [companyName, setCompanyName] = useState("");
   const [companyDescription, setCompanyDescription] = useState("");
@@ -148,7 +148,7 @@ const AddJob = () => {
 
             <Form.Group className="mb-3" controlId="contact_phone"
             onChange={(e) => setContactPhone(e.target.value)}>
-              >
+              
               <Form.Label>Contact Phone</Form.Label>
               <Form.Control
                 type="tel"

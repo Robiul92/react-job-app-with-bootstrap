@@ -21,6 +21,7 @@ import AddJob from "./pages/AddJob";
 import NotFound from "./pages/NotFound"
 import EditJobPage from "./pages/EditJobPage"
 import DeleteJobPage from "./pages/DeleteJobPage"
+import {JobLoader} from "./hooks/JobLoader";
 
 const App = () => {
   
@@ -31,9 +32,12 @@ const App = () => {
         <Route path="/jobs" element={<JobPages />} />
         <Route path="/jobs/:id" element={<JobPage />} />
         <Route path="/add-job" element={<AddJob />} />
-        <Route path="/edit-job/:id" element={<EditJobPage />} />
+        <Route path="/edit-job/:id" 
+        loader={JobLoader}
+        element={<EditJobPage />} />
         <Route path="/delete-job" element={<DeleteJobPage />} />
         <Route path="*" element={<NotFound />} />
+        
       </Route>
     )
   );
