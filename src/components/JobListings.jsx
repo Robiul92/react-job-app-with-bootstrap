@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import JobListing from "./JobListing";
 import { Col, Container, Row } from "react-bootstrap";
 import Spinners from './Spinners'
+import axios from "axios";
 
-const JobListings = ({isHome}) => {
+const JobListings = ({isHome = false}) => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchJobs = async () => {
+      const jobList = isHome ? "/api/jobs?_limit=3" : "/api/jobs";
       try {
-        const res = await fetch("/api/jobs");
-        const data = await res.json();
+        const response = await axios.get(jobList);
+        const data = await response.data;
         setJobs(data);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -21,7 +23,7 @@ const JobListings = ({isHome}) => {
     };
 
     fetchJobs();
-  }, []);
+  }, [isHome]);
 
   return (
     <Container>

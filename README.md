@@ -21,3 +21,5 @@ First command
 
 ..// npm install --save react-spinners
 
+..// npm install axios
+
