@@ -5,7 +5,7 @@ import {
   RouterProvider,
   createRoutesFromElements,
   Route,
-  } from "react-router-dom";
+} from "react-router-dom";
 
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
@@ -18,14 +18,13 @@ import HomePage from "./pages/HomePage";
 import JobPages from "./pages/JobPages";
 import JobPage from "./pages/JobPage";
 import AddJob from "./pages/AddJob";
-import NotFound from "./pages/NotFound"
-import EditJobPage from "./pages/EditJobPage"
-import DeleteJobPage from "./pages/DeleteJobPage"
-import {JobLoader} from "./hooks/JobLoader";
+import NotFound from "./pages/NotFound";
+import EditJobPage from "./pages/EditJobPage";
+import DeleteJobPage from "./pages/DeleteJobPage";
+
 import DemoPage from "./pages/DemoPage";
 
 const App = () => {
-  
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
@@ -33,13 +32,10 @@ const App = () => {
         <Route path="/jobs" element={<JobPages />} />
         <Route path="/jobs/:id" element={<JobPage />} />
         <Route path="/add-job" element={<AddJob />} />
-        <Route path="/edit-job/:id" 
-        loader={JobLoader}
-        element={<EditJobPage />} />
+        <Route path="/edit-job/:id" element={<EditJobPage />} />
         <Route path="/delete-job" element={<DeleteJobPage />} />
         <Route path="/demo-job" element={<DemoPage />} />
         <Route path="*" element={<NotFound />} />
-        
       </Route>
     )
   );

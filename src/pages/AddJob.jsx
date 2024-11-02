@@ -1,21 +1,67 @@
-import React, { useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Joi from "joi";
+import  useJobLoader  from "../hooks/useJobLoader";
 
 const AddJob = () => {
-  const job = useLoaderData();
+  const {id} = useParams()
+  // const { jobResult, apiError} = useJobLoader(id);
+
+  // if (apiError) {
+  //   alert(apiError)
+  // }
   const nevigate = useNavigate();
-  const [title, setTitle] = useState(job.title);
+  const [title, setTitle] = useState();
   const [type, setType] = useState("Full-Time");
   const [location, setLocation] = useState("");
-  const [description, setDescription] = useState(job.description);
+  const [description, setDescription] = useState();
   const [salary, setSalary] = useState("Under $50K");
   const [companyName, setCompanyName] = useState("");
   const [companyDescription, setCompanyDescription] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
-  console.log(job);
+  const [error, setError] = useState(null);
+  
 
+  const jobSchema = Joi.object({
+    title: Joi.string().min(3).max(50).regex(/^[a-zA-Z\s]+$/).required()
+      .messages({
+        "string.pattern.base": "Title can only contain letters and spaces",
+        "string.min": "Title should be at least 3 characters",
+        "string.max": "Title should be no more than 50 characters"
+      }),
+    type: Joi.string().valid("Full-Time", "Part-Time", "Remote", "Internship").required(),
+    location: Joi.string().min(2).max(100).required(),
+    description: Joi.string().min(10).max(500).required()
+    .messages({
+      "string.pattern.base": "Description can only contain letters and spaces",
+      "string.min": "Description should be at least 3 characters",
+      "string.max": "Description should be no more than 50 characters"
+    }),
+    salary: Joi.string().valid(
+      "Under $50K", "$50K - 60K", "$60K - 70K", "$70K - 80K", "$80K - 90K",
+      "$90K - 100K", "$100K - 125K", "$125K - 150K", "$150K - 175K",
+      "$175K - 200K", "Over $200K"
+    ).required(),
+    company: Joi.object({
+      name: Joi.string().min(2).max(50).required(),
+      description: Joi.string().max(500).optional()
+      .messages({
+        "string.pattern.base": "Description can only contain letters and spaces",
+        "string.min": "Description should be at least 3 characters",
+        "string.max": "Description should be no more than 50 characters"
+      }),
+      contactEmail: Joi.string().email({ tlds: { allow: false } }).required(),
+      contactPhone: Joi.string().pattern(/^[0-9]+$/).length(10).optional()
+        .messages({
+          "string.pattern.base": "Contact phone must contain only numbers",
+          
+        }),
+    }).required(),
+  });
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const newJob = {
@@ -31,19 +77,24 @@ const AddJob = () => {
         contactPhone,
       },
     };
+
+    const { error } = jobSchema.validate(newJob);
+    if (error) {
+      setError(error.message); 
+      return;
+    }
+
     addJob(newJob);
     nevigate('/jobs')
   };
 
   const addJob = async (newJob) => {
-    const res = await fetch("/api/jobs", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newJob),
-    });
-    return;
+    try {
+      const res = await axios.post("/api/jobs", newJob);
+      return res.data;
+    } catch (error) {
+      console.error("Failed to add job:", error);
+    }
   };
 
   return (
@@ -52,6 +103,7 @@ const AddJob = () => {
         <Card className="p-4 shadow-sm w-100" style={{ maxWidth: "600px" }}>
           <Form onSubmit={handleSubmit}>
             <h2 className="text-center mb-4">Add Job</h2>
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
             <Form.Group className="mb-3" controlId="type"
              onChange={(e) => setType(e.target.value)}

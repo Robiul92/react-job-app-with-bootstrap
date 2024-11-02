@@ -71,8 +71,7 @@
       }
     },
     {
-      "id": "6",
-      "title": "React Native Dev",
+      "title": "React Native DeV",
       "type": "Full-Time",
       "location": "Portland, OR",
       "description": "Join our team as a Front-End Developer in beautiful Portland, OR. We are looking for a skilled and enthusiastic individual to help us create innovative web solutions. Competitive salary and great benefits package available.",
@@ -82,7 +81,8 @@
         "description": "Port Solutions is a leading technology company specializing in software development and digital marketing. We are committed to providing our clients with cutting-edge solutions and our employees with a supportive and rewarding work environment.",
         "contactEmail": "contact@ipsumlorem.com",
         "contactPhone": "555-555-5555"
-      }
+      },
+      "id": "6"
     }
   ]
 }

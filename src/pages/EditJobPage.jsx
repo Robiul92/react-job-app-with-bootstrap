@@ -1,20 +1,33 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import useJobLoader from "../hooks/useJobLoader";
 
 const EditJobPage = () => {
-  const job = useLoaderData();
   const { id } = useParams();
+  // console.log("id:", id)
+  const { jobResult, apiError, loading } = useJobLoader(id);
+
   const navigate = useNavigate();
-  const [title, setTitle] = useState(job.title);
-  const [type, setType] = useState(job.type);
-  const [location, setLocation] = useState(job.location);
-  const [description, setDescription] = useState(job.description);
-  const [salary, setSalary] = useState(job.salary);
-  const [companyName, setCompanyName] = useState(job.company.name);
-  const [companyDescription, setCompanyDescription] = useState(job.company.description);
-  const [contactEmail, setContactEmail] = useState(job.company.contactEmail);
-  const [contactPhone, setContactPhone] = useState(job.company.contactPhone);
+  const [title, setTitle] = useState(jobResult?.title);
+  const [type, setType] = useState(jobResult?.type);
+  const [location, setLocation] = useState(jobResult?.location);
+  const [description, setDescription] = useState(jobResult?.description);
+  const [salary, setSalary] = useState(jobResult?.salary);
+  const [companyName, setCompanyName] = useState(jobResult?.company.name);
+  const [companyDescription, setCompanyDescription] = useState(
+    jobResult?.company.description
+  );
+  const [contactEmail, setContactEmail] = useState(
+    jobResult?.company.contactEmail
+  );
+  const [contactPhone, setContactPhone] = useState(
+    jobResult?.company.contactPhone
+  );
+
+  if (loading) return <p>Loading...</p>;
+  if (apiError) return <p>Error: {apiError}</p>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,13 +49,13 @@ const EditJobPage = () => {
   };
 
   const editJobs = async (job) => {
-    await fetch(`/api/jobs/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(job),
-    });
+    try {
+      const res = await axios.put(`/api/jobs/${id}`, job);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      throw new Error("Failed to update post.");
+    }
   };
 
   const handleCancel = () => {
@@ -58,7 +71,11 @@ const EditJobPage = () => {
 
             <Form.Group className="mb-3" controlId="type">
               <Form.Label>Job Type</Form.Label>
-              <Form.Select required value={type} onChange={(e) => setType(e.target.value)}>
+              <Form.Select
+                required
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              >
                 <option value="Full-Time">Full-Time</option>
                 <option value="Part-Time">Part-Time</option>
                 <option value="Remote">Remote</option>
@@ -90,7 +107,11 @@ const EditJobPage = () => {
 
             <Form.Group className="mb-3" controlId="salary">
               <Form.Label>Salary</Form.Label>
-              <Form.Select required value={salary} onChange={(e) => setSalary(e.target.value)}>
+              <Form.Select
+                required
+                value={salary}
+                onChange={(e) => setSalary(e.target.value)}
+              >
                 <option value="Under $50K">Under $50K</option>
                 <option value="$50K - 60K">$50K - $60K</option>
                 <option value="$60K - 70K">$60K - $70K</option>

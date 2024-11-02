@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import axios from "axios";
 
 const JobPage = () => {
   const { id } = useParams();
@@ -12,8 +13,8 @@ const JobPage = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await fetch(`/api/jobs/${id}`);
-        const data = await res.json();
+        const res = await axios.get(`/api/jobs/${id}`);
+        const data = await res.data;
         setJob(data);
       } catch (error) {
         console.log("Error fetching data", error);
@@ -26,10 +27,13 @@ const JobPage = () => {
   }, [id]);
 
   const deleteJob = async (id) => {
-    const res = await fetch(`/api/jobs/${id}`, {
-      method: "DELETE",
-    });
-    return;
+    try {
+      const res = await axios.delete(`/api/jobs/${id}`);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      throw new Error("Failed to delete post.");
+    }
   };
  
 
@@ -41,6 +45,8 @@ const JobPage = () => {
     deleteJob(jobId);
     return navigate('/jobs')
     }
+
+    
     
 
   return (
